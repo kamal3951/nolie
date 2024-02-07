@@ -23,6 +23,8 @@ struct ContractState {
 
     women_preferences: Vec<Vec<u32>>, //make them private
     men_preferences: Vec<Vec<u32>>,
+
+    pub matching: Vec<u32>,
 }
 
 #[init]
@@ -36,6 +38,7 @@ fn initialize(_ctx: ContractContext, _size_of_matching: u8) -> ContractState {
         women: AvlTreeMap::new(), //same here
         women_preferences: Vec::new(),
         men_preferences: Vec::new(),
+        matching: Vec::new(),
     }
 }
 
@@ -83,7 +86,7 @@ fn add_preferences(
 }
 
 #[action(shortname = 0x04)]
-fn solve_matching(_ctx: ContractContext, state: ContractState) -> Vec<u32> {
+fn solve_matching(_ctx: ContractContext, mut state: ContractState) -> ContractState {
     assert!(state.admin == _ctx.sender, "You're not allowed to solve!");
     assert!(
         state.number_of_men == state.number_of_women,
@@ -135,5 +138,8 @@ fn solve_matching(_ctx: ContractContext, state: ContractState) -> Vec<u32> {
             }
         }
     }
-    woman_partner
+
+    state.matching = woman_partner.clone();
+
+    state
 }
