@@ -71,10 +71,12 @@ fn add_preferences(
     if joined_man {
         state.men_preferences.push(prefs.clone()); //cloning to avoid prefs moving out of scope for line76 to use
         state.men.insert(_ctx.sender, state.number_of_men + 1);
+        state.number_of_men = state.number_of_men + 1;
     }
     if joined_woman {
         state.women_preferences.push(prefs);
         state.women.insert(_ctx.sender, state.number_of_women + 1);
+        state.number_of_women = state.number_of_women + 1;
     }
 
     state
