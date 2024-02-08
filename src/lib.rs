@@ -111,12 +111,12 @@ fn solve_matching(_ctx: ContractContext, mut state: ContractState) -> ContractSt
                         free_men_count = free_men_count - 1;
                         break;
                     } else {
-                        for &man_pref in &state.women_preferences[(man - 1) as usize] {
+                        for &man_pref in &state.women_preferences[(woman - 1) as usize] {
                             let mut need_to_break: bool = false;
                             if {
-                                if man == man_pref {
+                                if man_pref == man {
                                     true
-                                } else if man == woman_partner[(man - 1) as usize] {
+                                } else if man_pref == woman_partner[(woman - 1) as usize] {
                                     need_to_break = true;
                                     true
                                 } else {
@@ -129,7 +129,7 @@ fn solve_matching(_ctx: ContractContext, mut state: ContractState) -> ContractSt
                                 man_engaged[(woman_partner[(woman - 1) as usize] - 1) as usize] =
                                     false;
                                 woman_partner[(woman - 1) as usize] = man;
-                                man_engaged[(woman - 1) as usize] = true;
+                                man_engaged[(man - 1) as usize] = true;
                                 break;
                             }
                         }
